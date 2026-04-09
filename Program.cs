@@ -18,5 +18,10 @@ app.MapGet("/", () => "My App is Running 🚀");
 
 // run on port 80
 app.Urls.Add("http://0.0.0.0:80");
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.EnsureCreated();
+}
 
 app.Run();
