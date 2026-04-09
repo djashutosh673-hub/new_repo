@@ -12,4 +12,5 @@ var app = builder.Build();
 // Configure pipeline
 app.MapControllers();
 app.Urls.Add("http://0.0.0.0:80");
+app.MapGet("/", () => "My App is Running 🚀");
 app.Run();
