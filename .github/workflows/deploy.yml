@@ -20,8 +20,24 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           script: |
-            # install docker if not installed
+            # go to home directory
+            cd ~
+
+            # install git
             sudo apt update
+            sudo apt install -y git
+
+            # clone repo if not exists
+            if [ ! -d "new_repo" ]; then
+              git clone https://github.com/djashutosh673-hub/new_repo.git
+            fi
+
+            cd new_repo
+
+            # pull latest code
+            git pull origin main
+
+            # install docker
             sudo apt install -y docker.io
 
             # stop old container
