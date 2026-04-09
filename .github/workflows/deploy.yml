@@ -47,5 +47,7 @@ jobs:
             # build image
             docker build -t myapp .
 
-            # run container
-            docker run -d -p 80:80 --name myapp myapp
+            # run container WITH DB CONNECTION
+            docker run -d -p 80:80 --name myapp \
+              -e DB_CONNECTION_STRING="Server=${{ secrets.RDS_HOST }};Database=${{ secrets.RDS_DB_NAME }};User=${{ secrets.RDS_USERNAME }};Password=${{ secrets.RDS_PASSWORD }}" \
+              myapp

@@ -1,16 +1,22 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using MyRdsApp.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services
+// get connection string from environment
+var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
 builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// Configure pipeline
 app.MapControllers();
-app.Urls.Add("http://0.0.0.0:80");
 app.MapGet("/", () => "My App is Running 🚀");
+
+// run on port 80
+app.Urls.Add("http://0.0.0.0:80");
+
 app.Run();
